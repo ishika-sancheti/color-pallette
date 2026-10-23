@@ -16,7 +16,9 @@ const useColorPalette = () => {
                   colors.filter((color, i) => i!==index)
             );
       }; 
-      const selectColor = () => { }; 
+      const selectColor = (index) => {
+            setSelectedColor(index);
+      }; 
   
       const contextValue = useMemo(() => ({           // Memoize the context value to avoid unnecessary re-renders
       colors, 
@@ -31,12 +33,10 @@ const useColorPalette = () => {
  
 
 const ColorPalette = () => { 
-        
       const { colors, selectedColor, selectColor, removeColor } = useContext(ColorContext);   // Accessing the color-related functions and data from the context 
- 
+
       return ( 
       <div className="color-palette"> 
-            {/* Mapping over colors to render color boxes */} 
             {colors.map((color, index) => ( 
             <div 
             key={index} 
@@ -50,7 +50,12 @@ const ColorPalette = () => {
       ); 
 }; 
 
-const ColorControls = () => { }; 
+const ColorControls = () => {
+      const {addColor}=useContext(ColorContext);
+      return (
+            <button onClick={ ()=> addColor()}>Add Color</button>
+      )
+}; 
 
 const App = () => { 
       const color_details=ColorPalette();
