@@ -11,7 +11,7 @@ const useColorPalette = () => {
       const addColor = () => { 
             setColors([...colors, getRandomColor()]);
       }; 
-      const removeColor = () => {
+      const removeColor = (index) => {
             setColors(
                   colors.filter((color, i) => i!==index)
             );
@@ -36,17 +36,17 @@ const ColorPalette = () => {
       const { colors, selectedColor, selectColor, removeColor } = useContext(ColorContext);   // Accessing the color-related functions and data from the context 
 
       return ( 
-      <div className="color-palette"> 
-            {colors.map((color, index) => ( 
-            <div 
-            key={index} 
-            className={`color-box ${selectedColor === index ? 'selected' : ''}`} 
-            style={{ backgroundColor: color }} 
-            onClick={() => selectColor(index)}> 
-      <button onClick={() => removeColor(index)}>Remove</button> 
-      </div> 
-      ))} 
-      </div> 
+            <div className="color-palette"> 
+                  {colors.map((color, index) => ( 
+                  <div 
+                  key={index} 
+                  className={`color-box ${selectedColor === index ? 'selected' : ''}`} 
+                  style={{ backgroundColor: color }} 
+                  onClick={() => selectColor(index)}> 
+                        <button onClick={() => removeColor(index)}>Remove</button> 
+                  </div> 
+                  ))} 
+            </div> 
       ); 
 }; 
 
@@ -58,11 +58,11 @@ const ColorControls = () => {
 }; 
 
 const App = () => { 
-      const color_details=ColorPalette();
+      const color_details=useColorPalette();
       return ( 
-      <ColorContext.Provider> 
-            <div>{ColorPalette}</div>
-            <div>{ColorControls}</div>
+      <ColorContext.Provider value={color_details}> 
+            <ColorPalette />
+            <ColorControls />
       </ColorContext.Provider> 
       ); 
 }; 
